@@ -40,10 +40,10 @@ jobs:
           - rhel8-x64
           #- manylinux2014-x86 until we find 32-bit linux binaries we can use
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -73,10 +73,10 @@ jobs:
           - gcc-8
           - gcc-11
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -94,10 +94,10 @@ jobs:
       matrix:
         arch: [armv6, armv7, arm64]
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Build ${{ env.PACKAGE_NAME }}
       run: |
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
@@ -107,10 +107,10 @@ jobs:
   linux-fips-x64:
     runs-on: ubuntu-24.04 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -127,10 +127,10 @@ jobs:
   linux-fips-armv8:
     runs-on: ubuntu-24.04 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -152,10 +152,10 @@ jobs:
           - alpine-3.16-x64
           - openwrt-x64-openjdk8
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Build ${{ env.PACKAGE_NAME }}
       run: |
         aws s3 cp s3://aws-crt-test-stuff/ci/${{ env.BUILDER_VERSION }}/linux-container-ci.sh ./linux-container-ci.sh && chmod a+x ./linux-container-ci.sh
@@ -169,11 +169,11 @@ jobs:
           - alpine-3.16-armv7
           - alpine-3.16-arm64
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
-        role-duration-seconds: 14400 # these tests run slow and easily reach default cred expiry, hence change expiry to 4hrs
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    #     role-duration-seconds: 14400 # these tests run slow and easily reach default cred expiry, hence change expiry to 4hrs
     - name: Install qemu/docker
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - name: Build ${{ env.PACKAGE_NAME }}
@@ -188,10 +188,10 @@ jobs:
         image:
           - raspbian-bullseye
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Install qemu/docker
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     - name: Build ${{ env.PACKAGE_NAME }}
@@ -202,10 +202,10 @@ jobs:
   windows:
     runs-on: windows-2022 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -221,10 +221,10 @@ jobs:
       matrix:
         arch: [x86, x64]
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -239,10 +239,10 @@ jobs:
   macos:
     runs-on: macos-14 #latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -257,10 +257,10 @@ jobs:
   macos-x64:
     runs-on: macos-14-large #latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -277,10 +277,10 @@ jobs:
     name: Android
     runs-on: ubuntu-24.04 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
@@ -334,10 +334,10 @@ jobs:
   check-docs:
     runs-on: ubuntu-22.04 # use same version as docs.yml
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - uses: actions/checkout@v4
       with:
         submodules: true
@@ -348,10 +348,10 @@ jobs:
   check-submodules:
     runs-on: ubuntu-24.04 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Source
       uses: actions/checkout@v4
       with:
@@ -365,10 +365,10 @@ jobs:
   localhost-test-linux:
     runs-on: ubuntu-24.04 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -387,10 +387,10 @@ jobs:
   localhost-test-macos:
     runs-on: macos-14 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -412,10 +412,10 @@ jobs:
   localhost-test-win:
     runs-on: windows-2022 # latest
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -440,10 +440,10 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
         java-version: ['22', '21', '17']
     steps:
-    - uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ env.CRT_CI_ROLE }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    # - uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     role-to-assume: ${{ env.CRT_CI_ROLE }}
+    #     aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - name: Checkout Sources
       uses: actions/checkout@v4
       with:
