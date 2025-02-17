@@ -102,7 +102,7 @@ jobs:
       run: |
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
-        ./builder build -p ${{ env.PACKAGE_NAME }} --target=linux-${{ matrix.arch }} --spec=downstream
+        ./builder build -p ${{ env.PACKAGE_NAME }} --target=linux-${{ matrix.arch }} --variant=no-tests --spec=downstream
 
   linux-fips-x64:
     runs-on: ubuntu-24.04 # latest
@@ -122,7 +122,7 @@ jobs:
         export CRT_FIPS=ON
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
-        ./builder build -p ${{ env.PACKAGE_NAME }}
+        ./builder build -p ${{ env.PACKAGE_NAME }} --variant=no-tests
 
   linux-fips-armv8:
     runs-on: ubuntu-24.04 # latest
@@ -142,7 +142,7 @@ jobs:
         export CRT_FIPS=ON
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
-        ./builder build -p ${{ env.PACKAGE_NAME }} --target=linux-arm64 --spec=downstream --cmake-extra=-DCRT_FIPS=ON
+        ./builder build -p ${{ env.PACKAGE_NAME }} --target=linux-arm64 --spec=downstream --cmake-extra=-DCRT_FIPS=ON --variant=no-tests
 
   linux-musl-x64:
     runs-on: ubuntu-24.04 # latest
@@ -213,7 +213,7 @@ jobs:
     - name: Build ${{ env.PACKAGE_NAME }} + consumers
       run: |
         python -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-        python builder.pyz build -p ${{ env.PACKAGE_NAME }} --spec=downstream
+        python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=no-tests --spec=downstream
 
   windows-vc14:
     runs-on: windows-2019 # windows-2019 is last env with Visual Studio 2015 (v14.0)
@@ -234,7 +234,7 @@ jobs:
         AWS_CMAKE_TOOLSET: v140
       run: |
         python -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-        python builder.pyz build -p ${{ env.PACKAGE_NAME }} downstream
+        python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=no-tests downstream
 
   macos:
     runs-on: macos-14 #latest
@@ -251,7 +251,7 @@ jobs:
       run: |
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
-        ./builder build -p ${{ env.PACKAGE_NAME }} --spec=downstream
+        ./builder build -p ${{ env.PACKAGE_NAME }} --variant=no-tests --spec=downstream
         python3 codebuild/macos_compatibility_check.py
 
   macos-x64:
@@ -269,7 +269,7 @@ jobs:
       run: |
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
-        ./builder build -p ${{ env.PACKAGE_NAME }} --spec=downstream
+        ./builder build -p ${{ env.PACKAGE_NAME }} --variant=no-tests --spec=downstream
         python3 codebuild/macos_compatibility_check.py
 
   android:
@@ -457,4 +457,4 @@ jobs:
     - name: Build ${{ env.PACKAGE_NAME }} + consumers
       run: |
         python -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-        python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=graalvm downstream
+        python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=graalvm --variant=no-tests downstream
