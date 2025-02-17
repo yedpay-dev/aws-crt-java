@@ -85,6 +85,11 @@ jobs:
       run: |
         aws s3 cp s3://aws-crt-test-stuff/ci/${{ env.BUILDER_VERSION }}/linux-container-ci.sh ./linux-container-ci.sh && chmod a+x ./linux-container-ci.sh
         ./linux-container-ci.sh ${{ env.BUILDER_VERSION }} aws-crt-${{ env.LINUX_BASE_IMAGE }} build -p ${{ env.PACKAGE_NAME }} --compiler=${{ matrix.compiler }}
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   linux-arm:
     name: ARM (${{ matrix.arch }})
@@ -103,6 +108,11 @@ jobs:
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
         ./builder build -p ${{ env.PACKAGE_NAME }} --target=linux-${{ matrix.arch }} --variant=no-tests --spec=downstream
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   linux-fips-x64:
     runs-on: ubuntu-24.04 # latest
@@ -123,6 +133,11 @@ jobs:
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
         ./builder build -p ${{ env.PACKAGE_NAME }} --variant=no-tests
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   linux-fips-armv8:
     runs-on: ubuntu-24.04 # latest
@@ -143,6 +158,11 @@ jobs:
         python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder')"
         chmod a+x builder
         ./builder build -p ${{ env.PACKAGE_NAME }} --target=linux-arm64 --spec=downstream --cmake-extra=-DCRT_FIPS=ON --variant=no-tests
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   linux-musl-x64:
     runs-on: ubuntu-24.04 # latest
@@ -160,6 +180,11 @@ jobs:
       run: |
         aws s3 cp s3://aws-crt-test-stuff/ci/${{ env.BUILDER_VERSION }}/linux-container-ci.sh ./linux-container-ci.sh && chmod a+x ./linux-container-ci.sh
         ./linux-container-ci.sh ${{ env.BUILDER_VERSION }} aws-crt-${{ matrix.image }} build -p ${{ env.PACKAGE_NAME }}
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   linux-musl-arm:
     runs-on: ubuntu-22.04 # temporarily downgrade to old ubuntu as 24.04 likes to segfault in the middle of the build
@@ -180,6 +205,11 @@ jobs:
       run: |
         aws s3 cp s3://aws-crt-test-stuff/ci/${{ env.BUILDER_VERSION }}/linux-container-ci.sh ./linux-container-ci.sh && chmod a+x ./linux-container-ci.sh
         ./linux-container-ci.sh ${{ env.BUILDER_VERSION }} aws-crt-${{ matrix.image }} build -p ${{ env.PACKAGE_NAME }}
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   raspberry:
     runs-on: ubuntu-24.04 # latest
@@ -198,6 +228,11 @@ jobs:
       run: |
         aws s3 cp s3://aws-crt-test-stuff/ci/${{ env.BUILDER_VERSION }}/linux-container-ci.sh ./linux-container-ci.sh && chmod a+x ./linux-container-ci.sh
         ./linux-container-ci.sh ${{ env.BUILDER_VERSION }} aws-crt-${{ matrix.image }} build -p ${{ env.PACKAGE_NAME }}
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   windows:
     runs-on: windows-2022 # latest
@@ -214,6 +249,11 @@ jobs:
       run: |
         python -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
         python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=no-tests --spec=downstream
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   windows-vc14:
     runs-on: windows-2019 # windows-2019 is last env with Visual Studio 2015 (v14.0)
@@ -235,6 +275,11 @@ jobs:
       run: |
         python -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
         python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=no-tests downstream
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   macos:
     runs-on: macos-14 #latest
@@ -253,6 +298,11 @@ jobs:
         chmod a+x builder
         ./builder build -p ${{ env.PACKAGE_NAME }} --variant=no-tests --spec=downstream
         python3 codebuild/macos_compatibility_check.py
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   macos-x64:
     runs-on: macos-14-large #latest
@@ -271,6 +321,11 @@ jobs:
         chmod a+x builder
         ./builder build -p ${{ env.PACKAGE_NAME }} --variant=no-tests --spec=downstream
         python3 codebuild/macos_compatibility_check.py
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: $HOME/.m2/repository/software/amazon/awssdk/crt/aws-crt/
 
   android:
       # ubuntu-24.04 comes with Android tooling
@@ -300,6 +355,11 @@ jobs:
         # You'd think setting -Xmx via gradle.properties would help, but no.
         ./gradlew :android:crt:build -Dorg.gradle.jvmargs="-Xmx8g"
         ./gradlew -PnewVersion="1.0.0-SNAPSHOT" :android:crt:publishToMavenLocal
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: build/m2/repository/software/amazon/awssdk/crt/aws-crt/
     # Setup files required by test app for Device Farm testing
     - name: Setup Android Test Files
       run: |
@@ -458,3 +518,8 @@ jobs:
       run: |
         python -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
         python builder.pyz build -p ${{ env.PACKAGE_NAME }} --variant=graalvm --variant=no-tests downstream
+    - name: Artifact builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar
+        path: build/m2/repository/software/amazon/awssdk/crt/aws-crt/
