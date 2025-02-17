@@ -168,6 +168,9 @@
                 "AWS_GRAALVM_CI": true
             },
             "!build_env": {}
+        },
+        "no-tests": {
+            "!test_steps": []
         }
     }
 }
